@@ -48,7 +48,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
     z_table <- data.frame()
   }
 
-  table <- dplyr::bind_rows(x_table, y_table, z_table)
+  #table <- dplyr::bind_rows(x_table, y_table, z_table)
   table <- dplyr::mutate(table,
                          p.value = round(p.value, 3))
   table[is.na(table)] <- " "
