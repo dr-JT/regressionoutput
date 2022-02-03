@@ -79,16 +79,16 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                                        position = "left",
                                        bootstrap_options = "striped")
     table <- kableExtra::add_footnote(table,
-                                      label = paste("H1: ", x_formula, sep = ""),
+                                      label = paste("H1: ", deparse(x_formula), sep = ""),
                                       notation = "none")
     if (!is.null(y)) {
       table <- kableExtra::add_footnote(table,
-                                        label = paste("H2: ", y_formula, sep = ""),
+                                        label = paste("H2: ", deparse(y_formula), sep = ""),
                                         notation = "none")
     }
     if (!is.null(z)) {
       table <- kableExtra::add_footnote(table,
-                                        label = paste("H3: ", z_formula, sep = ""),
+                                        label = paste("H3: ", deparse(z_formula), sep = ""),
                                         notation = "none")
     }
   } else if (print == FALSE){
