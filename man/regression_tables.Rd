@@ -4,7 +4,7 @@
 \alias{regression_tables}
 \title{Regression Model Tables}
 \usage{
-regression_tables(x, y = NULL, z = NULL, ci = FALSE, se = FALSE, print = TRUE)
+regression_tables(x, y = NULL, z = NULL, ci = TRUE, se = TRUE, print = TRUE)
 }
 \arguments{
 \item{x}{a model object}
@@ -13,9 +13,9 @@ regression_tables(x, y = NULL, z = NULL, ci = FALSE, se = FALSE, print = TRUE)
 
 \item{z}{a model object}
 
-\item{ci}{display unstandardized confidence intervals? default = FALSE}
+\item{ci}{display unstandardized confidence intervals? default = TRUE}
 
-\item{se}{display standard errors? default = FALSE}
+\item{se}{display standard errors? default = TRUE}
 
 \item{print}{Create a knitr table for displaying as html table?
 (default = TRUE)}
