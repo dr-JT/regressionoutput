@@ -66,7 +66,7 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                            p = round(p, 3))
     table[is.na(table)] <- " "
     colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.",
-                         "$R^2 \\Delta$", "F Change", "df1", "df2", "p")
+                         "$R^2 \\Delta$", "$F \\Delta$", "df1", "df2", "p")
     column_align <- c("l", rep("c", 7))
   } else {
     colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.")

@@ -61,9 +61,10 @@ regression_coeff <- function(x, y = NULL, z = NULL,
       table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
                                          position = "left")
+      table <- kableExtra::row_spec(table, 0, bold = TRUE)
       table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 1,
                                                      "Standardized" = 2,
-                                                     " ", " "))
+                                                     " ", " "), bold = TRUE)
       table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     } else {
       header_names <- c("Model", "Term", "b", "SE", "B", "SE",
@@ -77,9 +78,10 @@ regression_coeff <- function(x, y = NULL, z = NULL,
       table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
                                          position = "left")
+      table <- kableExtra::row_spec(table, 0, bold = TRUE)
       table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 2,
                                                      "Standardized" = 3,
-                                                     " ", " "))
+                                                     " ", " "), bold = TRUE)
       table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     }
   } else {
@@ -96,9 +98,10 @@ regression_coeff <- function(x, y = NULL, z = NULL,
       table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
                                          position = "left")
+      table <- kableExtra::row_spec(table, 0, bold = TRUE)
       table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 2,
                                                      "Standardized" = 2,
-                                                     " ", " "))
+                                                     " ", " "), bold = TRUE)
       table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     } else {
       header_names <- c("Model", "Term", "b", "SE", "95% CI",
@@ -112,11 +115,11 @@ regression_coeff <- function(x, y = NULL, z = NULL,
       table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
                                          position = "left")
+      table <- kableExtra::row_spec(table, 0, bold = TRUE)
       table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 3,
                                                      "Standardized" = 3,
-                                                     " ", " "))
+                                                     " ", " "), bold = TRUE)
       table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
-      table <- kableExtra::row_spec(table, 0, bold = TRUE)
     }
   }
 
