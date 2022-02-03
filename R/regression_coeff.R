@@ -5,13 +5,13 @@
 #' @param x a model object
 #' @param y a model object
 #' @param z a model object
-#' @param ci display unstandardized confidence intervals? default = FALSE
-#' @param se display standard errors? default = FALSE
+#' @param ci display unstandardized confidence intervals? default = TRUE
+#' @param se display standard errors? default = TRUE
 #' @export
 #'
 
 regression_coeff <- function(x, y = NULL, z = NULL,
-                             ci = FALSE, se = FALSE) {
+                             ci = TRUE, se = TRUE) {
   table <- get_coeff(x, model = "H1")
   x_formula <- insight::find_formula(x)$conditional
   dv <- insight::find_response(x)
@@ -40,7 +40,7 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                         c("Lower.CI", "Upper.CI"), sep = " - ")
 
   if (ci == FALSE) {
-    table <- dplyr::select(table, -Lower.CI_unstd, -Upper.CI_unstd)
+    table <- dplyr::select(table, -CI_unstd)
     if (se == FALSE) {
       header_names <- c("Model", "Term", "b", "B",
                         "95% CI", "t", "p")
@@ -54,7 +54,7 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                                          position = "left",
                                          bootstrap_options = "striped")
       table <- kableExtra::add_header_above(table, c(" ", " ", " ",
-                                                     "Standardized" = 3,
+                                                     "Standardized" = 2,
                                                      " ", " "))
     } else {
       header_names <- c("Model", "Term", "b", "SE", "B", "SE",
@@ -68,7 +68,7 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                                          position = "left",
                                          bootstrap_options = "striped")
       table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ",
-                                                     "Standardized" = 4,
+                                                     "Standardized" = 3,
                                                      " ", " "))
     }
   } else {
@@ -84,8 +84,8 @@ regression_coeff <- function(x, y = NULL, z = NULL,
       table <- kableExtra::kable_styling(table, full_width = FALSE,
                                          position = "left",
                                          bootstrap_options = "striped")
-      table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ", " ",
-                                                     "Standardized" = 3,
+      table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ",
+                                                     "Standardized" = 2,
                                                      " ", " "))
     } else {
       header_names <- c("Model", "Term", "b", "SE", "95% CI",
@@ -98,8 +98,8 @@ regression_coeff <- function(x, y = NULL, z = NULL,
       table <- kableExtra::kable_styling(table, full_width = FALSE,
                                          position = "left",
                                          bootstrap_options = "striped")
-      table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ", " ", " ",
-                                                     "Standardized" = 4,
+      table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ", " ",
+                                                     "Standardized" = 3,
                                                      " ", " "))
     }
   }
