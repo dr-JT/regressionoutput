@@ -78,18 +78,19 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
     table <- kableExtra::kable_styling(table, full_width = FALSE,
                                        position = "left",
                                        bootstrap_options = "striped")
-    table <- kableExtra::add_footnote(table,
-                                      label = paste("H1: ", deparse(x_formula), sep = ""),
-                                      notation = "none")
-    if (!is.null(y)) {
-      table <- kableExtra::add_footnote(table,
-                                        label = paste("H2: ", deparse(y_formula), sep = ""),
-                                        notation = "none")
-    }
-    if (!is.null(z)) {
-      table <- kableExtra::add_footnote(table,
-                                        label = paste("H3: ", deparse(z_formula), sep = ""),
-                                        notation = "none")
+    if (is.null(y) & is.null(z)) {
+      table <- kableExtra::footnote(table,
+                                    number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""))
+    } else if (!is.null(y) & is.null(z)) {
+      table <- kableExtra::footnote(table,
+                                    number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
+                                               paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")))
+    } else {
+      table <- kableExtra::footnote(table,
+                                    number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
+                                               paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = ""),
+                                               paste("<small>", "H3: ", deparse(z_formula), "</small>", sep = "")),
+                                    escape = FALSE)
     }
   } else if (print == FALSE){
     table <- as.data.frame(table)
