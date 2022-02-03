@@ -26,9 +26,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
     y_formula <- insight::find_formula(y)$conditional
     y_n <- insight::model_info(y)$n_obs
     y_table <- broom::tidy(anova(y))
-    y_table <- dplyr::mutate(y_table,
-                             Term = rownames(y_table),
-                             Model = "H2")
+    y_table <- dplyr::mutate(y_table, Model = "H2")
 
     y_table <- dplyr::select(y_table,
                              Model, term, sumsq, df, meansq,
@@ -41,9 +39,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
     z_formula <- insight::find_formula(z)$conditional
     z_n <- insight::model_info(z)$n_obs
     z_table <- broom::tidy(anova(z))
-    z_table <- dplyr::mutate(z_table,
-                             Term = rownames(z_table),
-                             Model = "H3")
+    z_table <- dplyr::mutate(z_table, Model = "H3")
 
     z_table <- dplyr::select(z_table,
                              Model, term, sumsq, df, meansq,
