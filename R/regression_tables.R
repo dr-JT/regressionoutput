@@ -16,10 +16,16 @@ regression_tables <- function(x, y = NULL, z = NULL,
                               ci = TRUE, se = TRUE,
                               print = TRUE) {
   table_modelsig <- regression_modelsig(x, y, z, print = TRUE)
-  table_rsquared <- regression_rsquared(x, y, z, print = print)
+  table_interaction <- regression_interaction(x, y, z, print = TRUE)
+  table_rsquared <- regression_rsquared(x, y, z, print = TRUE)
   table_coeff <- regression_coeff(x, y, z, ci = ci, se = se)
 
   print(table_modelsig)
   print(table_rsquared)
+  model_formula <- deparse(insight::find_formula(model_moderation)$conditional)
+  if (stringr::str_detect(model_formula, "\\*") |
+      stringr::str_detect(model_formula, "\\:")) {
+    print(table_interaction)
+  }
   print(table_coeff)
 }

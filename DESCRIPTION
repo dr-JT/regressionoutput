@@ -14,6 +14,7 @@ Description: Prints nice looking regression tables in RMarkdown documents.
 Imports:
     dplyr,
     tidyr,
+    stringr,
     broom,
     insight,
     knitr,

@@ -3,6 +3,7 @@
 export(get_coeff)
 export(get_standardized)
 export(regression_coeff)
+export(regression_interaction)
 export(regression_modelsig)
 export(regression_rsquared)
 export(regression_tables)
