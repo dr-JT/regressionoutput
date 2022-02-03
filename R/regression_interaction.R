@@ -33,7 +33,6 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
                              statistic, p.value)
   } else {
     y_table <- data.frame()
-    y_top <- data.frame()
   }
   if (!is.null(z)) {
     z_formula <- insight::find_formula(z)$conditional
@@ -48,11 +47,10 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
     z_table <- data.frame()
   }
 
-  #table <- dplyr::bind_rows(x_table, y_table, z_table)
-  table <- x_table
+  table <- dplyr::bind_rows(x_table, y_table, z_table)
   table <- dplyr::mutate(table, statistic = round(statistic, 3),
                          p.value = round(p.value, 3))
-  table[is.na(table)] <- " "
+  table[is.na(table[3:7])] <- " "
   colnames(table) <- c("Model", "Term", "Sum of Squares", "df", "Mean Square",
                        "F-value", "p")
 
