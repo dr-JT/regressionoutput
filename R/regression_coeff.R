@@ -112,7 +112,7 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                             row.names = FALSE,
                             col.names = header_names,
                             align = c("l", "l", rep("c", 8)))
-      table <- kableExtra::kable_classic(table)
+      table <- kableExtra::kable_classic(table, position = "left")
       table <- kableExtra::kable_styling(table, full_width = FALSE,
                                          position = "left")
       table <- kableExtra::row_spec(table, 0, bold = TRUE)
