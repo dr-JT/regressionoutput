@@ -12,6 +12,7 @@
 
 regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
   x_formula <- insight::find_formula(x)$conditional
+  x_n <- insight::model_info(x)$n_obs
   dv <- insight::find_response(x)
 
   x_summary <- summary(x)
@@ -22,6 +23,7 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
 
   if (!is.null(y)) {
     y_formula <- insight::find_formula(y)$conditional
+    y_n <- insight::model_info(y)$n_obs
     y_summary <- summary(y)
     y_table <- data.frame(model = "H2",
                           r2 = y_summary$r.squared,
@@ -42,6 +44,7 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
   }
   if (!is.null(z)) {
     z_formula <- insight::find_formula(z)$conditional
+    z_n <- insight::model_info(z)$n_obs
     z_summary <- summary(z)
     z_table <- data.frame(model = "H3",
                           r2 = z_summary$r.squared,
