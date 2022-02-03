@@ -49,7 +49,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
   }
 
   table <- dplyr::bind_rows(x_table, y_table, z_table)
-  table <- dplyr::mutate(table, statistic = round(statistic, 3),
+  table <- dplyr::mutate(table,
                          p.value = round(p.value, 3))
   table[is.na(table)] <- " "
   colnames(table) <- c("Model", "Term", "Sum of Squares", "df", "Mean Square",
