@@ -105,14 +105,17 @@ regression_coeff <- function(x, y = NULL, z = NULL,
   }
 
   if (is.null(y) & is.null(z)) {
-    table <- kableExtra::footnote(number = paste("\\\\tiny{*", "H1: ", deparse(x_formula), sep = ""),
+    table <- kableExtra::footnote(table,
+                                  number = paste("\\\\tiny{*", "H1: ", deparse(x_formula), sep = ""),
                                   escape = FALSE)
   } else if (!is.null(y) & is.null(z)) {
-    table <- kableExtra::footnote(number = c(paste("\\\\tiny{*", "H1: ", deparse(x_formula), sep = ""),
+    table <- kableExtra::footnote(table,
+                                  number = c(paste("\\\\tiny{*", "H1: ", deparse(x_formula), sep = ""),
                                              paste("\\\\tiny{*", "H2: ", deparse(y_formula), sep = "")),
                                   escape = FALSE)
   } else {
-    table <- kableExtra::footnote(number = c(paste("\\\\tiny{*", "H1: ", deparse(x_formula), sep = ""),
+    table <- kableExtra::footnote(table,
+                                  number = c(paste("\\\\tiny{*", "H1: ", deparse(x_formula), sep = ""),
                                              paste("\\\\tiny{*", "H2: ", deparse(y_formula), sep = ""),
                                              paste("\\\\tiny{*", "H3: ", deparse(z_formula), sep = "")),
                                   escape = FALSE)
