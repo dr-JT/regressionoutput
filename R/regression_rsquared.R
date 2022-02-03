@@ -78,7 +78,7 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                           caption = paste("R-Squared: ", dv, sep = ""),
                           row.names = FALSE,
                           align = column_align)
-    table <- kableExtra::kable_classic(table)
+    table <- kableExtra::kable_classic(table, position = "left")
     table <- kableExtra::kable_styling(table, full_width = FALSE,
                                        position = "left")
     table <- kableExtra::row_spec(table, 0, bold = TRUE)

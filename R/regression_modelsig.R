@@ -97,7 +97,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
                           caption = paste("Model Summary Fit: ", dv, sep = ""),
                           row.names = FALSE,
                           align = c("l", "l", rep("c", 8)))
-    table <- kableExtra::kable_classic(table)
+    table <- kableExtra::kable_classic(table, position = "left")
     table <- kableExtra::kable_styling(table, full_width = FALSE,
                                        position = "left")
     table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
