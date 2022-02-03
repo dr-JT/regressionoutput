@@ -15,7 +15,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
   x_n <- insight::model_info(x)$n_obs
   dv <- insight::find_response(x)
 
-  x_table <- anova(x)
+  x_table <- broom::tidy(anova(x))
   x_table <- dplyr::mutate(x_table,
                            Term = rownames(x_table),
                            Model = "H1")
@@ -27,7 +27,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
   if (!is.null(y)) {
     y_formula <- insight::find_formula(y)$conditional
     y_n <- insight::model_info(y)$n_obs
-    y_table <- anova(y)
+    y_table <- broom::tidy(anova(y))
     y_table <- dplyr::mutate(y_table,
                              Term = rownames(y_table),
                              Model = "H2")
@@ -42,7 +42,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
   if (!is.null(z)) {
     z_formula <- insight::find_formula(z)$conditional
     z_n <- insight::model_info(z)$n_obs
-    z_table <- anova(z)
+    z_table <- broom::tidy(anova(z))
     z_table <- dplyr::mutate(z_table,
                              Term = rownames(z_table),
                              Model = "H3")
