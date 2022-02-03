@@ -16,12 +16,10 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
   dv <- insight::find_response(x)
 
   x_table <- broom::tidy(anova(x))
-  x_table <- dplyr::mutate(x_table,
-                           Term = rownames(x_table),
-                           Model = "H1")
+  x_table <- dplyr::mutate(x_table, Model = "H1")
 
   x_table <- dplyr::select(x_table,
-                           Model, Term, `Sum Sq`, Df, `Mean Sq`,
+                           Model, term, sumsq, df, meansq,
                            statistic, p.value)
 
   if (!is.null(y)) {
@@ -33,7 +31,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
                              Model = "H2")
 
     y_table <- dplyr::select(y_table,
-                             Model, Term, `Sum Sq`, Df, `Mean Sq`,
+                             Model, term, sumsq, df, meansq,
                              statistic, p.value)
   } else {
     y_table <- data.frame()
@@ -48,7 +46,7 @@ regression_interaction <- function(x, y = NULL, z = NULL, print = TRUE) {
                              Model = "H3")
 
     z_table <- dplyr::select(z_table,
-                             Model, Term, `Sum Sq`, Df, `Mean Sq`,
+                             Model, term, sumsq, df, meansq,
                              statistic, p.value)
   } else {
     z_table <- data.frame()
