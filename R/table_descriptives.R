@@ -26,6 +26,7 @@ table_descriptives <- function(x) {
   table <- dplyr::ungroup(table)
   table <- knitr::kable(table, digits=2, format="html",
                         caption="Descriptive Statistics")
+  tabale <- kableExtra::kable_classic(table, position = "left")
   table <- kableExtra::kable_styling(table)
   table <- kableExtra::footnote(table, general_title = "\n",
                                 general = paste("Total N = ", N, sep = ""))

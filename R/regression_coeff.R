@@ -15,12 +15,14 @@ regression_coeff <- function(x, y = NULL, z = NULL,
   table <- get_coeff(x)
   table <- dplyr::mutate(table, Model = "H1")
   x_formula <- insight::find_formula(x)$conditional
+  x_n <- insight::model_info(x)$n_obs
   dv <- insight::find_response(x)
   x_rows <- nrow(table)
   if (!is.null(y)) {
     y_table <- get_coeff(y)
     y_table <- dplyr::mutate(y_table, Model = "H2")
     y_formula <- insight::find_formula(y)$conditional
+    y_n <- insight::model_info(y)$n_obs
     y_rows <- nrow(y_table)
     table <- dplyr::bind_rows(table, y_table)
     }
@@ -28,6 +30,7 @@ regression_coeff <- function(x, y = NULL, z = NULL,
     z_table <- get_coeff(z)
     z_table <- dplyr::mutate(z_table, Model = "H3")
     z_formula <- insight::find_formula(z)$conditional
+    z_n <- insight::model_info(z)$n_obs
     z_rows <- nrow(z_table)
     table <- dplyr::bind_rows(table, z_table)
   }
@@ -125,18 +128,24 @@ regression_coeff <- function(x, y = NULL, z = NULL,
 
   if (is.null(y) & is.null(z)) {
     table <- kableExtra::footnote(table,
-                                  number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
+                                  number = paste("<small>", "H1: ", deparse(x_formula),
+                                                 "; N = ", x_n, "</small>", sep = ""),
                                   escape = FALSE)
   } else if (!is.null(y) & is.null(z)) {
     table <- kableExtra::footnote(table,
-                                  number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
-                                             paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")),
+                                  number = c(paste("<small>", "H1: ", deparse(x_formula),
+                                                   "; N = ", x_n, "</small>", sep = ""),
+                                             paste("<small>", "H2: ", deparse(y_formula),
+                                                   "; N = ", y_n, "</small>", sep = "")),
                                   escape = FALSE)
   } else {
     table <- kableExtra::footnote(table,
-                                  number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
-                                             paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = ""),
-                                             paste("<small>", "H3: ", deparse(z_formula), "</small>", sep = "")),
+                                  number = c(paste("<small>", "H1: ", deparse(x_formula),
+                                                   "; N = ", x_n, "</small>", sep = ""),
+                                             paste("<small>", "H2: ", deparse(y_formula),
+                                                   "; N = ", y_n, "</small>", sep = ""),
+                                             paste("<small>", "H3: ", deparse(z_formula),
+                                                   "; N = ", z_n, "</small>", sep = "")),
                                   escape = FALSE)
   }
 

@@ -13,7 +13,7 @@ get_coeff <- function(x) {
                          Upper.CI_unstd = conf.high,
                          t = statistic, p = p.value)
 
-  x_standardized <- regression_standardized(x)
+  x_standardized <- get_standardized(x)
   table_std <- broom::tidy(x_standardized, conf.int = TRUE)
   table_std <- dplyr::select(table_std, B = estimate, SE_B = std.error,
                              Lower.CI = conf.low, Upper.CI = conf.high)
