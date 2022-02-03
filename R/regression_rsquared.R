@@ -11,6 +11,9 @@
 #'
 
 regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
+  x_formula <- insight::find_formula(x)$conditional
+  dv <- insight::find_response(x)
+
   x_summary <- summary(x)
 
   x_table <- data.frame(model = "H1",
@@ -18,6 +21,7 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                         r2_adj = x_summary$adj.r.squared)
 
   if (!is.null(y)) {
+    y_formula <- insight::find_formula(y)$conditional
     y_summary <- summary(y)
     y_table <- data.frame(model = "H2",
                           r2 = y_summary$r.squared,
@@ -37,6 +41,7 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
     y_table <- data.frame()
   }
   if (!is.null(z)) {
+    z_formula <- insight::find_formula(z)$conditional
     z_summary <- summary(z)
     z_table <- data.frame(model = "H3",
                           r2 = z_summary$r.squared,
@@ -60,18 +65,32 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                            `F Change` = round(`F Change`, 3),
                            p = round(p, 3))
     table[is.na(table)] <- " "
-    colnames(table) <- c("Model", "R-squared", "R-squared adj.",
-                         "R-squared Change", "F Change", "df1", "df2", "p")
+    colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.",
+                         "$R^2 \\Delta$", "F Change", "df1", "df2", "p")
   } else {
-    colnames(table) <- c("Model", "R-squared", "R-squared adj.")
+    colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.")
   }
 
   if (print == TRUE){
     table <- knitr::kable(table, digits = 3, format = "html",
-                          caption = "R-Squared Values", row.names = FALSE)
+                          caption = paste("R-Squared: ", dv, sep = ""),
+                          row.names = FALSE)
     table <- kableExtra::kable_styling(table, full_width = FALSE,
                                        position = "left",
                                        bootstrap_options = "striped")
+    table <- kableExtra::add_footnote(table,
+                                      label = paste("H1: ", x_formula, sep = ""),
+                                      notation = "none")
+    if (!is.null(y)) {
+      table <- kableExtra::add_footnote(table,
+                                        label = paste("H2: ", y_formula, sep = ""),
+                                        notation = "none")
+    }
+    if (!is.null(z)) {
+      table <- kableExtra::add_footnote(table,
+                                        label = paste("H3: ", z_formula, sep = ""),
+                                        notation = "none")
+    }
   } else if (print == FALSE){
     table <- as.data.frame(table)
   }

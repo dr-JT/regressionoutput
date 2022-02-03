@@ -11,6 +11,9 @@
 #'
 
 regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
+  x_formula <- insight::find_formula(x)$conditional
+  dv <- insight::find_response(x)
+
   x_table <- anova(x)
   x_table <- dplyr::mutate(x_table,
                            Term = rownames(x_table),
@@ -32,6 +35,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
                            statistic, p.value, logLik, AIC, BIC)
 
   if (!is.null(y)) {
+    y_formula <- insight::find_formula(y)$conditional
     y_table <- anova(y)
     y_table <- dplyr::mutate(y_table,
                              Term = rownames(y_table),
@@ -56,6 +60,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
     y_top <- data.frame()
   }
   if (!is.null(z)) {
+    z_formula <- insight::find_formula(z)$conditional
     z_table <- anova(z)
     z_table <- dplyr::mutate(z_table,
                              Term = rownames(z_table),
@@ -85,14 +90,28 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
                          AIC = round(AIC, 3), BIC = round(BIC, 3))
   table[is.na(table)] <- " "
   colnames(table) <- c("Model", "Term", "Sum of Squares", "df", "Mean Square",
-                       "F-value", "p", "log-likelihood", "AIC", "BIC")
+                       "F-value", "p", "logLik", "AIC", "BIC")
 
   if (print == TRUE){
     table <- knitr::kable(table, digits = 3, format = "html",
-                          caption = "Model Summary Fit", row.names = FALSE)
+                          caption = paste("Model Summary Fit: ", dv, sep = ""),
+                          row.names = FALSE)
     table <- kableExtra::kable_styling(table, full_width = FALSE,
                                        position = "left",
                                        bootstrap_options = "striped")
+    table <- kableExtra::add_footnote(table,
+                                      label = paste("H1: ", x_formula, sep = ""),
+                                      notation = "none")
+    if (!is.null(y)) {
+      table <- kableExtra::add_footnote(table,
+                                        label = paste("H2: ", y_formula, sep = ""),
+                                        notation = "none")
+    }
+    if (!is.null(z)) {
+      table <- kableExtra::add_footnote(table,
+                                        label = paste("H3: ", z_formula, sep = ""),
+                                        notation = "none")
+    }
   } else if (print == FALSE){
     table <- as.data.frame(table)
   }
