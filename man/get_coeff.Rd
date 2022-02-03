@@ -4,12 +4,10 @@
 \alias{get_coeff}
 \title{Create Coefficients Data Frame}
 \usage{
-get_coeff(x, model = "H1")
+get_coeff(x)
 }
 \arguments{
 \item{x}{an lm model object}
-
-\item{model}{The model number (e.g., "H1")}
 }
 \description{
 Create Coefficients Data Frame

@@ -65,26 +65,31 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                            `F Change` = round(`F Change`, 3),
                            p = round(p, 3))
     table[is.na(table)] <- " "
-    colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.",
-                         "$R^2 \\Delta$", "F Change", "df1", "df2", "p")
+    colnames(table) <- c("Model", "$\\bm{R^2}$", "$\\bm{R^2}$ adj.",
+                         "$\\bm{R^2 \\Delta}$", "F Change", "df1", "df2", "p")
+    column_align <- c("l", rep("c", 7))
   } else {
-    colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.")
+    colnames(table) <- c("Model", "$\\bm{R^2}$", "$\\bm{R^2$} adj.")
+    column_align <- c("l", rep("c", 2))
   }
 
   if (print == TRUE){
     table <- knitr::kable(table, digits = 3, format = "html",
                           caption = paste("R-Squared: ", dv, sep = ""),
-                          row.names = FALSE)
+                          row.names = FALSE,
+                          align = column_align)
+    table <- kableExtra::kable_classic(table)
     table <- kableExtra::kable_styling(table, full_width = FALSE,
-                                       position = "left",
-                                       bootstrap_options = "striped")
+                                       position = "left")
     if (is.null(y) & is.null(z)) {
       table <- kableExtra::footnote(table,
-                                    number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""))
+                                    number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
+                                    escape = FALSE)
     } else if (!is.null(y) & is.null(z)) {
       table <- kableExtra::footnote(table,
                                     number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
-                                               paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")))
+                                               paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")),
+                                    escape = FALSE)
     } else {
       table <- kableExtra::footnote(table,
                                     number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),

@@ -19,7 +19,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
                            Term = rownames(x_table),
                            Term = ifelse(Term == "Residuals",
                                          "Residual", "Regression"),
-                           Model = ifelse(Term == "Regression", "H1", " "))
+                           Model = "H1")
   x_table <- dplyr::group_by(x_table, Model, Term)
   x_table <- dplyr::summarise(x_table, Df = sum(Df), `Sum Sq` = sum(`Sum Sq`))
   x_table <- dplyr::ungroup(x_table)
@@ -41,7 +41,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
                              Term = rownames(y_table),
                              Term = ifelse(Term == "Residuals",
                                            "Residual", "Regression"),
-                             Model = ifelse(Term == "Regression", "H2", " "))
+                             Model = "H2")
     y_table <- dplyr::group_by(y_table, Model, Term)
     y_table <- dplyr::summarise(y_table, Df = sum(Df), `Sum Sq` = sum(`Sum Sq`))
     y_table <- dplyr::ungroup(y_table)
@@ -66,7 +66,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
                              Term = rownames(z_table),
                              Term = ifelse(Term == "Residuals",
                                            "Residual", "Regression"),
-                             Model = ifelse(Term == "Regression", "H3", " "))
+                             Model = "H3")
     z_table <- dplyr::group_by(z_table, Model, Term)
     z_table <- dplyr::summarise(z_table, Df = sum(Df), `Sum Sq` = sum(`Sum Sq`))
     z_table <- dplyr::ungroup(z_table)
@@ -95,17 +95,21 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
   if (print == TRUE){
     table <- knitr::kable(table, digits = 3, format = "html",
                           caption = paste("Model Summary Fit: ", dv, sep = ""),
-                          row.names = FALSE)
+                          row.names = FALSE,
+                          align = c("l", "l", rep("c", 8)))
+    table <- kableExtra::kable_classic(table)
     table <- kableExtra::kable_styling(table, full_width = FALSE,
-                                       position = "left",
-                                       bootstrap_options = "striped")
+                                       position = "left")
+    table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     if (is.null(y) & is.null(z)) {
       table <- kableExtra::footnote(table,
-                                    number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""))
+                                    number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
+                                    escape = FALSE)
     } else if (!is.null(y) & is.null(z)) {
       table <- kableExtra::footnote(table,
                                     number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
-                                               paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")))
+                                               paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")),
+                                    escape = FALSE)
     } else {
       table <- kableExtra::footnote(table,
                                     number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),

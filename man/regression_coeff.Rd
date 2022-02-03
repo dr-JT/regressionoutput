@@ -4,7 +4,7 @@
 \alias{regression_coeff}
 \title{Regression Coefficients}
 \usage{
-regression_coeff(x, y = NULL, z = NULL, ci = FALSE, se = FALSE)
+regression_coeff(x, y = NULL, z = NULL, ci = TRUE, se = TRUE)
 }
 \arguments{
 \item{x}{a model object}
@@ -13,9 +13,9 @@ regression_coeff(x, y = NULL, z = NULL, ci = FALSE, se = FALSE)
 
 \item{z}{a model object}
 
-\item{ci}{display unstandardized confidence intervals? default = FALSE}
+\item{ci}{display unstandardized confidence intervals? default = TRUE}
 
-\item{se}{display standard errors? default = FALSE}
+\item{se}{display standard errors? default = TRUE}
 }
 \description{
 Displays a table for regression coefficients.

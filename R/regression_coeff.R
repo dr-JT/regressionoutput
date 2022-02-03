@@ -12,20 +12,27 @@
 
 regression_coeff <- function(x, y = NULL, z = NULL,
                              ci = TRUE, se = TRUE) {
-  table <- get_coeff(x, model = "H1")
+  table <- get_coeff(x)
+  table <- dplyr::mutate(table, Model = "H1")
   x_formula <- insight::find_formula(x)$conditional
   dv <- insight::find_response(x)
-
+  x_rows <- nrow(table)
   if (!is.null(y)) {
-    y_table <- get_coeff(y, model = "H2")
+    y_table <- get_coeff(y)
+    y_table <- dplyr::mutate(y_table, Model = "H2")
     y_formula <- insight::find_formula(y)$conditional
+    y_rows <- nrow(y_table)
     table <- dplyr::bind_rows(table, y_table)
     }
   if (!is.null(z)) {
-    z_table <- get_coeff(z, model = "H3")
+    z_table <- get_coeff(z)
+    z_table <- dplyr::mutate(z_table, Model = "H3")
     z_formula <- insight::find_formula(z)$conditional
+    z_rows <- nrow(z_table)
     table <- dplyr::bind_rows(table, z_table)
   }
+
+  table <- dplyr::relocate(table, Model, .befor = Term)
 
   table <- dplyr::mutate(table,
                          Lower.CI_unstd = round(Lower.CI_unstd, 3),
@@ -49,13 +56,15 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                             caption = paste("Regression Coefficients: ",
                                             dv, sep = ""),
                             row.names = FALSE,
-                            col.names = header_names)
+                            col.names = header_names,
+                            align = c("l", "l", rep("c", 5)))
+      table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
-                                         position = "left",
-                                         bootstrap_options = "striped")
-      table <- kableExtra::add_header_above(table, c(" ", " ", " ",
+                                         position = "left")
+      table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 1,
                                                      "Standardized" = 2,
                                                      " ", " "))
+      table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     } else {
       header_names <- c("Model", "Term", "b", "SE", "B", "SE",
                         "95% CI", "t", "p")
@@ -63,13 +72,15 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                             caption = paste("Regression Coefficients: ",
                                             dv, sep = ""),
                             row.names = FALSE,
-                            col.names = header_names)
+                            col.names = header_names,
+                            align = c("l", "l", rep("c", 7)))
+      table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
-                                         position = "left",
-                                         bootstrap_options = "striped")
-      table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ",
+                                         position = "left")
+      table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 2,
                                                      "Standardized" = 3,
                                                      " ", " "))
+      table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     }
   } else {
     if (se == FALSE) {
@@ -80,13 +91,15 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                             caption = paste("Regression Coefficients: ",
                                             dv, sep = ""),
                             row.names = FALSE,
-                            col.names = header_names)
+                            col.names = header_names,
+                            align = c("l", "l", rep("c", 6)))
+      table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
-                                         position = "left",
-                                         bootstrap_options = "striped")
-      table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ",
+                                         position = "left")
+      table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 2,
                                                      "Standardized" = 2,
                                                      " ", " "))
+      table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     } else {
       header_names <- c("Model", "Term", "b", "SE", "95% CI",
                         "B", "SE", "95% CI", "t", "p")
@@ -94,23 +107,27 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                             caption = paste("Regression Coefficients: ",
                                             dv, sep = ""),
                             row.names = FALSE,
-                            col.names = header_names)
+                            col.names = header_names,
+                            align = c("l", "l", rep("c", 8)))
+      table <- kableExtra::kable_classic(table)
       table <- kableExtra::kable_styling(table, full_width = FALSE,
-                                         position = "left",
-                                         bootstrap_options = "striped")
-      table <- kableExtra::add_header_above(table, c(" ", " ", " ", " ", " ",
+                                         position = "left")
+      table <- kableExtra::add_header_above(table, c(" ", " ", "Unstandardized" = 3,
                                                      "Standardized" = 3,
                                                      " ", " "))
+      table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
     }
   }
 
   if (is.null(y) & is.null(z)) {
     table <- kableExtra::footnote(table,
-                                  number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""))
+                                  number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
+                                  escape = FALSE)
   } else if (!is.null(y) & is.null(z)) {
     table <- kableExtra::footnote(table,
                                   number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
-                                             paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")))
+                                             paste("<small>", "H2: ", deparse(y_formula), "</small>", sep = "")),
+                                  escape = FALSE)
   } else {
     table <- kableExtra::footnote(table,
                                   number = c(paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),
