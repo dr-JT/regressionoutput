@@ -1,15 +1,16 @@
 Package: regressionoutput
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Create nice looking regression tables in RMarkdown documents
+Version: 0.0.1
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Jason",
+           family = "Tsukahara",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+           email = "jason.tsukahara@gatech.edu")
+Description: Prints nice looking regression tables in RMarkdown documents. 
+    Will print an F-Table of summary statistics including log-likelihood, 
+    AIC, and BIC; an R-squared table (with R-squared change if multiple models
+    are inputted); and a coefficient table. Up to three models can be entered
+    for hierarchical regression output and model comparisons. 
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
