@@ -101,6 +101,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
     table <- kableExtra::kable_styling(table, full_width = FALSE,
                                        position = "left")
     table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
+    table <- kableExtra::row_spec(table, 0, bold = TRUE)
     if (is.null(y) & is.null(z)) {
       table <- kableExtra::footnote(table,
                                     number = paste("<small>", "H1: ", deparse(x_formula), "</small>", sep = ""),

@@ -116,6 +116,7 @@ regression_coeff <- function(x, y = NULL, z = NULL,
                                                      "Standardized" = 3,
                                                      " ", " "))
       table <- kableExtra::collapse_rows(table, columns = 1, valign = "top")
+      table <- kableExtra::row_spec(table, 0, bold = TRUE)
     }
   }
 
