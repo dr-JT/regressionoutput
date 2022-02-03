@@ -11,6 +11,14 @@ Description: Prints nice looking regression tables in RMarkdown documents.
     AIC, and BIC; an R-squared table (with R-squared change if multiple models
     are inputted); and a coefficient table. Up to three models can be entered
     for hierarchical regression output and model comparisons. 
+Imports:
+    dplyr,
+    tidyr,
+    broom,
+    insight,
+    knitr,
+    kableExtra,
+    e1071
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
