@@ -86,13 +86,13 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                            `F Change` = round(`F Change`, 3),
                            p = round(p, 3),
                            BF =
-                             dplyr::case_when(Model == "H2" ~
+                             dplyr::case_when(model == "H2" ~
                                                 exp((dplyr::first(BIC) -
                                                        dplyr::nth(BIC, 2)) / 2),
-                                              Model == "H3" ~
+                                              model == "H3" ~
                                                 exp((dplyr::first(BIC) -
                                                        dplyr::last(BIC, w)) / 2),
-                                              Model == "H1" ~ as.numeric(NA)),
+                                              model == "H1" ~ as.numeric(NA)),
                            BF = round(BF, 3),
                            `P(Model|Data)` = BF / (BF + 1),
                            `P(Model|Data)` = round(`P(Model|Data)`, 3))
