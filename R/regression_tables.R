@@ -15,11 +15,11 @@
 regression_tables <- function(x, y = NULL, z = NULL,
                               ci = TRUE, se = TRUE,
                               print = TRUE) {
-  table_modelsig <- regression_modelsig(x, y, z, print = TRUE)
   table_rsquared <- regression_rsquared(x, y, z, print = TRUE)
+  table_modelsig <- regression_modelsig(x, y, z, print = TRUE)
   table_coeff <- regression_coeff(x, y, z, ci = ci, se = se)
 
-  print(table_modelsig)
   print(table_rsquared)
+  print(table_modelsig)
   print(table_coeff)
 }
