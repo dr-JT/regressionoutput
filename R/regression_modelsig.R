@@ -27,13 +27,13 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
   x_table <- dplyr::mutate(x_table, `Mean Sq` = `Sum Sq` / Df)
 
   x_fit <- broom::glance(x)
-  x_fit <- dplyr::select(x_fit, statistic, p.value, logLik, AIC, BIC)
+  x_fit <- dplyr::select(x_fit, statistic, p.value)
   x_fit <- dplyr::mutate(x_fit, Term = x_table$Term[2])
 
   x_table <- merge(x_table, x_fit, by = "Term", all = TRUE)
   x_table <- dplyr::select(x_table,
                            Model, Term, `Sum Sq`, Df, `Mean Sq`,
-                           statistic, p.value, logLik, AIC, BIC)
+                           statistic, p.value)
 
   if (!is.null(y)) {
     y_formula <- insight::find_formula(y)$conditional
@@ -50,13 +50,13 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
     y_table <- dplyr::mutate(y_table, `Mean Sq` = `Sum Sq` / Df)
 
     y_fit <- broom::glance(y)
-    y_fit <- dplyr::select(y_fit, statistic, p.value, logLik, AIC, BIC)
+    y_fit <- dplyr::select(y_fit, statistic, p.value)
     y_fit <- dplyr::mutate(y_fit, Term = y_table$Term[2])
 
     y_table <- merge(y_table, y_fit, by = "Term", all = TRUE)
     y_table <- dplyr::select(y_table,
                              Model, Term, `Sum Sq`, Df, `Mean Sq`,
-                             statistic, p.value, logLik, AIC, BIC)
+                             statistic, p.value)
   } else {
     y_table <- data.frame()
     y_top <- data.frame()
@@ -76,30 +76,29 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
     z_table <- dplyr::mutate(z_table, `Mean Sq` = `Sum Sq` / Df)
 
     z_fit <- broom::glance(z)
-    z_fit <- dplyr::select(z_fit, statistic, p.value, logLik, AIC, BIC)
+    z_fit <- dplyr::select(z_fit, statistic, p.value)
     z_fit <- dplyr::mutate(z_fit, Term = z_table$Term[2])
 
     z_table <- merge(z_table, z_fit, by = "Term", all = TRUE)
     z_table <- dplyr::select(z_table,
                              Model, Term, `Sum Sq`, Df, `Mean Sq`,
-                             statistic, p.value, logLik, AIC, BIC)
+                             statistic, p.value)
   } else {
     z_table <- data.frame()
   }
 
   table <- dplyr::bind_rows(x_table, y_table, z_table)
   table <- dplyr::mutate(table, statistic = round(statistic, 3),
-                         p.value = round(p.value, 3), logLik = round(logLik, 3),
-                         AIC = round(AIC, 3), BIC = round(BIC, 3))
+                         p.value = round(p.value, 3))
   table[is.na(table)] <- " "
   colnames(table) <- c("Model", "Term", "Sum of Squares", "df", "Mean Square",
-                       "F-value", "p", "logLik", "AIC", "BIC")
+                       "F-value", "p")
 
   if (print == TRUE){
     table <- knitr::kable(table, digits = 3, format = "html",
-                          caption = paste("Model Summary Fit: ", dv, sep = ""),
+                          caption = paste("ANOVA Table: ", dv, sep = ""),
                           row.names = FALSE,
-                          align = c("l", "l", rep("c", 8)))
+                          align = c("l", "l", rep("c", 5)))
     table <- kableExtra::kable_classic(table, position = "left")
     table <- kableExtra::kable_styling(table, full_width = FALSE,
                                        position = "left")

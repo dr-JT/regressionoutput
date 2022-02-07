@@ -21,6 +21,11 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                         r2 = x_summary$r.squared,
                         r2_adj = x_summary$adj.r.squared)
 
+  x_fit <- broom::glance(x)
+  x_fit <- dplyr::select(x_fit, logLik, AIC, BIC)
+
+  x_table <- dplyr::bind_cols(x_table, x_fit)
+
   if (!is.null(y)) {
     y_formula <- insight::find_formula(y)$conditional
     y_n <- insight::model_info(y)$n_obs
@@ -28,6 +33,12 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
     y_table <- data.frame(model = "H2",
                           r2 = y_summary$r.squared,
                           r2_adj = y_summary$adj.r.squared)
+
+    y_fit <- broom::glance(y)
+    y_fit <- dplyr::select(y_fit, logLik, AIC, BIC)
+
+    y_table <- dplyr::bind_cols(y_table, y_fit)
+
     y_comp <- anova(x, y)
     y_comp <- dplyr::filter(y_comp, !is.na(Df))
     y_comp <- dplyr::mutate(y_comp,
@@ -38,7 +49,7 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                             p = `Pr(>F)`)
     y_table <- dplyr::bind_cols(y_table, y_comp)
     x_table <- dplyr::mutate(x_table, r2_change = NA, `F Change` = NA,
-                      df1 = NA, df2 = NA, p = NA)
+                             df1 = NA, df2 = NA, p = NA)
   } else {
     y_table <- data.frame()
   }
@@ -49,6 +60,12 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
     z_table <- data.frame(model = "H3",
                           r2 = z_summary$r.squared,
                           r2_adj = z_summary$adj.r.squared)
+
+    z_fit <- broom::glance(z)
+    z_fit <- dplyr::select(z_fit, logLik, AIC, BIC)
+
+    z_table <- dplyr::bind_cols(z_table, z_fit)
+
     z_comp <- anova(y, z)
     z_comp <- dplyr::filter(z_comp, !is.na(Df))
     z_comp <- dplyr::mutate(z_comp,
@@ -64,21 +81,23 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
 
   table <- dplyr::bind_rows(x_table, y_table, z_table)
   if (!is.null(y)) {
+    table <- dplyr::relocate(table, logLik, AIC, BIC, .after = p)
     table <- dplyr::mutate(table, r2_change = round(r2_change, 3),
                            `F Change` = round(`F Change`, 3),
                            p = round(p, 3))
     table[is.na(table)] <- " "
     colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.",
-                         "$R^2 \\Delta$", "$F \\Delta$", "df1", "df2", "p")
-    column_align <- c("l", rep("c", 7))
+                         "$R^2 \\Delta$", "$F \\Delta$", "df1", "df2", "p",
+                         "logLik", "AIC", "BIC")
+    column_align <- c("l", rep("c", 10))
   } else {
-    colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.")
-    column_align <- c("l", rep("c", 2))
+    colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.", "logLik", "AIC", "BIC")
+    column_align <- c("l", rep("c", 5))
   }
 
   if (print == TRUE){
     table <- knitr::kable(table, digits = 3, format = "html",
-                          caption = paste("R-Squared: ", dv, sep = ""),
+                          caption = paste("Model Summary: ", dv, sep = ""),
                           row.names = FALSE,
                           align = column_align)
     table <- kableExtra::kable_classic(table, position = "left")
