@@ -84,12 +84,23 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
     table <- dplyr::relocate(table, logLik, AIC, BIC, .after = p)
     table <- dplyr::mutate(table, r2_change = round(r2_change, 3),
                            `F Change` = round(`F Change`, 3),
-                           p = round(p, 3))
+                           p = round(p, 3),
+                           BF =
+                             dplyr::case_when(Model == "H2" ~
+                                                exp((dplyr::first(BIC) -
+                                                       dplyr::nth(BIC, 2)) / 2),
+                                              Model == "H3" ~
+                                                exp((dplyr::first(BIC) -
+                                                       dplyr::last(BIC, w)) / 2),
+                                              Model == "H1" ~ as.numeric(NA)),
+                           BF = round(BF, 3),
+                           `P(Model|Data)` = BF / (BF + 1),
+                           `P(Model|Data)` = round(`P(Model|Data)`, 3))
     table[is.na(table)] <- " "
     colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.",
                          "$R^2 \\Delta$", "$F \\Delta$", "df1", "df2", "p",
-                         "logLik", "AIC", "BIC")
-    column_align <- c("l", rep("c", 10))
+                         "logLik", "AIC", "BIC", "BF", "P(Model|Data)")
+    column_align <- c("l", rep("c", 12))
   } else {
     colnames(table) <- c("Model", "$R^2$", "$R^2$ adj.", "logLik", "AIC", "BIC")
     column_align <- c("l", rep("c", 5))
