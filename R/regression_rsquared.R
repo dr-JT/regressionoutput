@@ -90,8 +90,8 @@ regression_rsquared <- function(x, y = NULL, z = NULL, print = TRUE) {
                                                 exp((dplyr::first(BIC) -
                                                        dplyr::nth(BIC, 2)) / 2),
                                               model == "H3" ~
-                                                exp((dplyr::first(BIC) -
-                                                       dplyr::last(BIC, w)) / 2),
+                                                exp((dplyr::nth(BIC, 2) -
+                                                       dplyr::last(BIC)) / 2),
                                               model == "H1" ~ as.numeric(NA)),
                            BF = round(BF, 3),
                            `P(Model|Data)` = BF / (BF + 1),
