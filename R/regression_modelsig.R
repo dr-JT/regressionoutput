@@ -28,7 +28,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
 
   x_fit <- broom::glance(x)
   x_fit <- dplyr::select(x_fit, statistic, p.value)
-  x_fit <- dplyr::mutate(x_fit, Term = x_table$Term[2])
+  x_fit <- dplyr::mutate(x_fit, Term = "Regression")
 
   x_table <- merge(x_table, x_fit, by = "Term", all = TRUE)
   x_table <- dplyr::select(x_table,
@@ -51,7 +51,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
 
     y_fit <- broom::glance(y)
     y_fit <- dplyr::select(y_fit, statistic, p.value)
-    y_fit <- dplyr::mutate(y_fit, Term = y_table$Term[2])
+    y_fit <- dplyr::mutate(y_fit, Term = "Regression")
 
     y_table <- merge(y_table, y_fit, by = "Term", all = TRUE)
     y_table <- dplyr::select(y_table,
@@ -77,7 +77,7 @@ regression_modelsig <- function(x, y = NULL, z = NULL, print = TRUE) {
 
     z_fit <- broom::glance(z)
     z_fit <- dplyr::select(z_fit, statistic, p.value)
-    z_fit <- dplyr::mutate(z_fit, Term = z_table$Term[2])
+    z_fit <- dplyr::mutate(z_fit, Term = "Regression")
 
     z_table <- merge(z_table, z_fit, by = "Term", all = TRUE)
     z_table <- dplyr::select(z_table,
