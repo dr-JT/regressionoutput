@@ -22,7 +22,7 @@ regression_tables <- function(x, y = NULL, z = NULL,
 
   print(table_modelsig)
   print(table_rsquared)
-  model_formula <- deparse(insight::find_formula(model_moderation)$conditional)
+  model_formula <- deparse(insight::find_formula(x)$conditional)
   if (stringr::str_detect(model_formula, "\\*") |
       stringr::str_detect(model_formula, "\\:")) {
     print(table_interaction)
