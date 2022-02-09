@@ -24,6 +24,7 @@ library(readr)
 ```
 
 Import Data
+
 ```{r}
 data_import <- read_csv(here("folder_path", "filename.csv"))
 ```
@@ -57,7 +58,6 @@ Model
 ```{r}
 
 ```
-
 
 ## Figures
 
