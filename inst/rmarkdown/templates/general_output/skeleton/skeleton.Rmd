@@ -16,11 +16,12 @@ Last updated: `r format(Sys.Date(), "%B %d %Y")`
 
 Required Packages
 
-```{r setup}
+```{r setup, message = FALSE}
 knitr::opts_chunk$set(error = TRUE, message = FALSE, warning = TRUE)
 
 library(here)
 library(readr)
+library(dplyr)
 ```
 
 Import Data
@@ -78,6 +79,6 @@ sessionInfo()
 ```
 
 ```{r}
-rm(list=ls())
+rm(list = ls())
 ```
 
